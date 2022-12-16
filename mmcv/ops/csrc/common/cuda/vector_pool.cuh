@@ -200,7 +200,6 @@ __global__ void stack_vector_pool_cuda_kernel(
   // idx of grid_idx in new_xyz] use_xyz: whether to calculate new_local_xyz
   // neighbor_type: 1: ball, others: cube
   // pooling_type: 0: avg_pool, 1: random choice
-
   CUDA_1D_KERNEL_LOOP(pt_idx, M) {
     const float *cur_new_xyz = new_xyz;
     float *cur_new_features = new_features;
@@ -208,10 +207,11 @@ __global__ void stack_vector_pool_cuda_kernel(
     float *cur_new_local_xyz = new_local_xyz;
     const float *cur_support_xyz = support_xyz;
     const float *cur_support_features = support_features;
-    int bs_idx = 0;
-    for (int pt_cnt = 0; bs_idx < batch_size; bs_idx++) {
-      pt_cnt += new_xyz_batch_cnt[bs_idx];
+    int bs_idx = 0, pt_cnt = new_xyz_batch_cnt[0];
+    for (int k = 1; k < batch_size; k++) {
       if (pt_idx < pt_cnt) break;
+      pt_cnt += new_xyz_batch_cnt[k];
+      bs_idx = k;
     }
 
     int xyz_batch_start_idx = 0;
@@ -293,8 +293,8 @@ __global__ void stack_vector_pool_cuda_kernel(
         // support_xyz[k * 3 + 2], local_x, local_y, local_z,
         // max_neighbour_distance, grid_idx, point_cnt_of_grid[grid_idx]);
 
-        if (point_cnt_of_grid[grid_idx] == 0) {
-          point_cnt_of_grid[grid_idx]++;
+        if (cur_point_cnt_of_grid[grid_idx] == 0) {
+          cur_point_cnt_of_grid[grid_idx]++;
           for (int i = 0; i < num_c_in; i++) {
             cur_new_features[grid_idx * num_c_each_grid + i % num_c_each_grid] =
                 cur_support_features[k * num_c_in + i];
