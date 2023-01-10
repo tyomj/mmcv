@@ -482,6 +482,16 @@ void stack_vector_pool_backward(const Tensor grad_new_features_tensor,
                                 const Tensor point_cnt_of_grid_tensor,
                                 const Tensor grouped_idxs_tensor,
                                 Tensor grad_support_features_tensor);
+void bezier_align_forward(Tensor input, Tensor rois, Tensor output,
+                          int aligned_height, int aligned_width,
+                          float spatial_scale, int sampling_ratio,
+                          bool aligned);
+
+void bezier_align_backward(Tensor grad_output, Tensor rois, Tensor grad_input,
+                           int aligned_height, int aligned_width,
+                           float spatial_scale, int sampling_ratio,
+                           bool aligned);
+
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   m.def("upfirdn2d", &upfirdn2d, "upfirdn2d (CUDA)", py::arg("input"),
         py::arg("kernel"), py::arg("up_x"), py::arg("up_y"), py::arg("down_x"),
@@ -977,4 +987,14 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
         "stack vector pool backward", py::arg("grad_new_features_tensor"),
         py::arg("point_cnt_of_grid_tensor"), py::arg("grouped_idxs_tensor"),
         py::arg("grad_support_features_tensor"));
+  m.def("bezier_align_forward", &bezier_align_forward, "bezier_align forward",
+        py::arg("input"), py::arg("rois"), py::arg("output"),
+        py::arg("aligned_height"), py::arg("aligned_width"),
+        py::arg("spatial_scale"), py::arg("sampling_ratio"),
+        py::arg("aligned"));
+  m.def("bezier_align_backward", &bezier_align_backward,
+        "bezier_align backward", py::arg("grad_output"), py::arg("rois"),
+        py::arg("grad_input"), py::arg("aligned_height"),
+        py::arg("aligned_width"), py::arg("spatial_scale"),
+        py::arg("sampling_ratio"), py::arg("aligned"));
 }
