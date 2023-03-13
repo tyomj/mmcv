@@ -4,6 +4,7 @@ from .assign_score_withk import assign_score_withk
 from .ball_query import ball_query
 from .bbox import bbox_overlaps
 from .bezier_align import BezierAlign, bezier_align
+from .bias_act import bias_act
 from .border_align import BorderAlign, border_align
 from .box_iou_quadri import box_iou_quadri
 from .box_iou_rotated import box_iou_rotated
@@ -11,6 +12,7 @@ from .carafe import CARAFE, CARAFENaive, CARAFEPack, carafe, carafe_naive
 from .cc_attention import CrissCrossAttention
 from .chamfer_distance import chamfer_distance
 from .contour_expand import contour_expand
+from .conv2d_gradfix import conv2d, conv_transpose2d
 from .convex_iou import convex_giou, convex_iou
 from .corner_pool import CornerPool
 from .correlation import Correlation
@@ -22,6 +24,7 @@ from .deprecated_wrappers import ConvTranspose2d_deprecated as ConvTranspose2d
 from .deprecated_wrappers import Linear_deprecated as Linear
 from .deprecated_wrappers import MaxPool2d_deprecated as MaxPool2d
 from .diff_iou_rotated import diff_iou_rotated_2d, diff_iou_rotated_3d
+from .filtered_lrelu import filtered_lrelu
 from .focal_loss import (SigmoidFocalLoss, SoftmaxFocalLoss,
                          sigmoid_focal_loss, softmax_focal_loss)
 from .furthest_point_sample import (furthest_point_sample,
@@ -71,6 +74,7 @@ from .three_nn_vector_pool import three_nn_vector_pool_by_two_step
 from .tin_shift import TINShift, tin_shift
 from .upfirdn2d import upfirdn2d
 from .vector_pool_with_voxel_query import vector_pool_with_voxel_query
+from .upfirdn2d import filter2d, upfirdn2d, upsample2d
 from .voxelize import Voxelization, voxelization
 
 __all__ = [
@@ -107,5 +111,7 @@ __all__ = [
     'diff_iou_rotated_2d', 'diff_iou_rotated_3d', 'chamfer_distance',
     'PrRoIPool', 'prroi_pool', 'three_nn_vector_pool_by_two_step',
     'stack_three_interpolate', 'vector_pool_with_voxel_query',
+    'BezierAlign', 'bezier_align', 'bias_act', 'filtered_lrelu', 'conv2d',
+    'conv_transpose2d', 'filter2d', 'upsample2d',
     'BezierAlign', 'bezier_align'
 ]
